@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.Solution" ToolsVersion="17.0">
+  <PropertyGroup>
+	<SolutionPath>$(MSBuildProjectDirectory)</SolutionPath>
+  </PropertyGroup>
+  <ItemGroup>
+	<ProjectReference Include="Product_Management_WebApp.csproj" />
+  </ItemGroup>
+</Project>
