@@ -1,20 +1,29 @@
-﻿<form>
+﻿@using Product_Management_WebApp.Dto
+@model UserDto
+
+<form class="container d-flex justify-content-center align-items-center " style="min-height: 100vh;" asp-action="CreateUser" >
+    <div class="card p-4 shadow" style="width: 100%; max-width: 400px; ">
+
+    <h3 class="text-center mb-4 "> Ragister</h3>
+            
     <div class="mb-3">
         <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" placeholder="Enter username">
+        <input type="text" class="form-control" id="username" name="Username" asp-action=" Username" placeholder="Enter username">
     </div>
 
     <div class="mb-3">
         <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email">
+        <input type="email" class="form-control" id="email" name="Email" asp-action=" Email" placeholder="Enter email">
     </div>
 
     <div class="mb-3">
         <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" placeholder="Enter password">
+        <input type="password" class="form-control" id="password" name="Password" asp-action ="Password" placeholder="Enter password">
     </div>
 
-    <button type="submit" class="btn btn-success w-100">Register</button>
+    <input type="submit" class="btn btn-success w-100" value="Submit" >
+
+   </div>
 </form>
 
 Already Existing User <a asp-action="Login"> Login Here..</a>
