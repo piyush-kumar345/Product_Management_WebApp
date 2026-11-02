@@ -11,6 +11,7 @@ namespace Product_Management_WebApp.Controllers
     {
         public IActionResult Register()
         {
+            ViewBag.SuccessMessage = TempData["SuccessMessage"]; 
             return View();  
         }
 
@@ -40,7 +41,7 @@ namespace Product_Management_WebApp.Controllers
                 ViewBag.ErrorMessage = "Email Already Exist";
                 return View("Register");
             }
-            
+            TempData["SuccessMessage"] = "User Created Successfully.Please Login";
             return RedirectToAction("Login");
                
         }
