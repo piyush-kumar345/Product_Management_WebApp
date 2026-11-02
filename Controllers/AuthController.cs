@@ -20,10 +20,11 @@ namespace Product_Management_WebApp.Controllers
         }
 
         public async Task<IActionResult> CreateUser (UserDto dto)
-        {
+        
+            {
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
 
-            if(existingUser == null)
+              if(existingUser == null)
             {
                 var user = new User
                 {
@@ -34,6 +35,12 @@ namespace Product_Management_WebApp.Controllers
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
             }
+            else
+            {
+                ViewBag.ErrorMessage = "Email Already Exist";
+                return View("Register");
+            }
+            
             return RedirectToAction("Login");
                
         }
