@@ -56,18 +56,18 @@ namespace Product_Management_WebApp.Controllers
             if (isUserExists == null)
             {
                 ViewBag.ErrorMessage = "User Is Not Exist";
-                return View();
+                return View("Login");
             }
 
             else
-            {
-                if(isUserExists.Password== dto.Password)
+            { 
+                if(isUserExists.Password == dto.Password)   
                 {
-                    return RedirectToAction("Index", " Home");
+                    return RedirectToAction("Index", "Dashboard");
                 }
                 else
                 {
-                    ViewBag.ErrorMessage = "Incorrect Message";
+                    ViewBag.ErrorMessage = "Incorrect Password";
                     return View("Login");
                 }
             }
