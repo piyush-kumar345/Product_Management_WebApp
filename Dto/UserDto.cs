@@ -1,4 +1,5 @@
-﻿namespace Product_Management_WebApp.Dto
+﻿
+namespace Product_Management_WebApp.Dto
 {
     public class UserDto
     {

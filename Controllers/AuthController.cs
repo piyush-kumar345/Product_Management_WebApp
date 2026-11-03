@@ -49,5 +49,29 @@ namespace Product_Management_WebApp.Controllers
             return RedirectToAction("Login");
                
         }
+
+        public async Task<IActionResult> LoginUser(UserDto dto)
+        {
+            var isUserExists = await _context.Users.FirstOrDefaultAsync(x => x.Email == dto.Email);
+            if (isUserExists == null)
+            {
+                ViewBag.ErrorMessage = "User Is Not Exist";
+                return View();
+            }
+
+            else
+            {
+                if(isUserExists.Password== dto.Password)
+                {
+                    return RedirectToAction("Index", " Home");
+                }
+                else
+                {
+                    ViewBag.ErrorMessage = "Incorrect Message";
+                    return View("Login");
+                }
+            }
+           
+        }
     }
 }
