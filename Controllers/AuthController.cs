@@ -21,11 +21,15 @@ namespace Product_Management_WebApp.Controllers
         }
 
         public async Task<IActionResult> CreateUser (UserDto dto)
-        
+        {
+            if (dto == null || string.IsNullOrEmpty(dto.Username) || string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Password))
             {
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+                ViewBag.ErrorMessage = "Kindly Fill All The Details";
+                return View("Register");
+            }
 
-              if(existingUser == null)
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
+            if(existingUser == null)
             {
                 var user = new User
                 {
