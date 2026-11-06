@@ -1,10 +1,15 @@
-﻿<div class="container mt-4">
+﻿@using Product_Management_WebApp.Dto
+@model List<ProductDto>
+
+
+
+<div class="container mt-4">
 
     <!-- Add Product Button -->
     <div class="mb-3">
-        <button class="btn btn-primary">
+        <a class="btn btn-primary" asp-action="ProductForm">
             + Add Product
-        </button>
+        </a>
     </div>
 
     <!-- Product Table -->
@@ -20,53 +25,28 @@
                     <th>Action</th>
                 </tr>
             </thead>
-
             <tbody>
-                <tr>
-                    <td>Laptop</td>
-                    <td>HP Laptop 15.6 inch</td>
-                    <td>₹55,000</td>
-                    <td>Silver</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm">Edit</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Mobile</td>
-                    <td>Samsung Galaxy Smartphone</td>
-                    <td>₹25,000</td>
-                    <td>Black</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm">Edit</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Headphones</td>
-                    <td>Wireless Bluetooth Headphones</td>
-                    <td>₹2,500</td>
-                    <td>White</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm">Edit</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>Keyboard</td>
-                    <td>Mechanical Gaming Keyboard</td>
-                    <td>₹3,000</td>
-                    <td>RGB</td>
-                    <td>
-                        <button class="btn btn-warning btn-sm">Edit</button>
-                        <button class="btn btn-danger btn-sm">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-
+                @if (Model.Count > 0)
+                {
+                    foreach (var product in Model)
+                    {
+                        <tr>
+                            <td>@product.ProductName</td>
+                            <td>@product.Description</td>
+                            <td>@product.Price</td>
+                            <td>£@product.color</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm">Edit</button>
+                                <button class="btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>No Product Are Avilable </tr>
+                }
+                </tbody>    
         </table>
     </div>
 
