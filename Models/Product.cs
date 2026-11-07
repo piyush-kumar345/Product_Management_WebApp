@@ -9,7 +9,7 @@ namespace Product_Management_WebApp.Models
         public string ProductName { get; set; } = null!;
         public string Description { get; set; } = null!;
         public decimal Price { get; set; } = 0.00m;
-        public string color { get; set; } = null!;
+        public string Color { get; set; } = null!;
     }
 
 }

@@ -10,12 +10,29 @@ namespace Product_Management_WebApp.Controllers
 
         public IActionResult Index()
         {
-            var list = context.Products.Select(x => new ProductDto { Id = x.Id, color = x.color
-                , Price = x.Price, Description = x.Description }).ToList();
+            var list = context.Products.Select(x => new ProductDto { Id = x.Id, ProductName= x.ProductName,Description = x.Description,Price= x.Price,Color= x.Color  }).ToList();
             return View(list);
         }
 
         public IActionResult ProductForm() => View();
+
+        public async Task<IActionResult> CreateProduct(ProductDto dto)
+        {
+            if(dto== null)
+            {
+                ViewBag.ErrorMessage = "Please fill the all details!";
+                return View("ProductForm");
+            }
+            context.Products.Add(new Models.Product
+            {
+               ProductName = dto.ProductName,
+               Description = dto.Description,
+               Price = dto.Price,
+               Color = dto.Color
+            });
+            await context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
             
     }
