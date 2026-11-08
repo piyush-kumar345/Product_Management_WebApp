@@ -33,6 +33,13 @@ namespace Product_Management_WebApp.Controllers
             await context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+        public async Task<IActionResult> DeleteProduct(int productid)
+        {
+            var product =await context.Products.FirstOrDefaultAsync(x=> x.Id == productid);
+            context.Products.Remove(product);
+            await context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
 
             
     }
