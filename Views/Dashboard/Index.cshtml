@@ -2,7 +2,7 @@
 @model List<ProductDto>
 
 
-
+<div>@ViewBag.SuccessMessage</div>
 <div class="container mt-4">
 
     <!-- Add Product Button -->
@@ -33,10 +33,10 @@
                         <tr>
                             <td>@product.ProductName</td>
                             <td>@product.Description</td>
-                            <td>@product.Price</td>
-                            <td>£@product.Color</td>
+                            <td>£@product.Price</td>
+                            <td>@product.Color</td>
                             <td>
-                                <button class="btn btn-warning btn-sm">Edit</button>
+                                <a asp-action="UpdateProductForm" asp-route-id="@product.Id" class="btn btn-warning btn-sm">Edit</a>
                                 <a asp-action="DeleteProduct" asp-route-ProductId="@product.Id" class="btn btn-secondary">Delete</a>
                             </td>
                         </tr>
