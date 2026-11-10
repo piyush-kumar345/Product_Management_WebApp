@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Product_Management_WebApp.Data;
 using Product_Management_WebApp.Dto;
@@ -6,6 +7,7 @@ using System.Drawing;
 
 namespace Product_Management_WebApp.Controllers
 {
+    [Authorize]
     public class DashboardController(AppDbConetxt context) : Controller
     {
 

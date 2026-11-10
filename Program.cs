@@ -30,8 +30,27 @@ builder.Services.AddAuthentication(option =>
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YehEoSYAdvxrutgGjPrDgA1ofiSEkC7n7Dor8IVJDp3"))
 
     };
+    x.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var tokan = context.Request.Cookies["Jwt_Key"];
+            if (!string.IsNullOrEmpty(tokan))
+            {
+                context.Token = tokan;
+            }
+            return Task.CompletedTask;
+        },
+        OnChallenge = context =>
+        {
+            context.HandleResponse();
+            context.Response.Redirect("/");
+
+            return Task.CompletedTask;
+        }
+    };
 });
-// Add services to the container.
+// Add services to the container. 
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

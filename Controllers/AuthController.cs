@@ -68,8 +68,14 @@ namespace Product_Management_WebApp.Controllers
             { 
                 if(isUserExists.Password == dto.Password)   
                 {
-                  var tokan =   GenerateJwtTokan(dto); 
-                    return RedirectToAction("Index", "Dashboard");
+                     var tokan =   GenerateJwtTokan(dto);
+                    Response.Cookies.Append("Jwt_Key", tokan, new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = true,
+                        Expires = DateTime.UtcNow.AddMinutes(30)
+                    });
+                     return RedirectToAction("Index", "Dashboard");
                 }
                 else
                 {
@@ -98,6 +104,14 @@ namespace Product_Management_WebApp.Controllers
 
             return jwtHnadler.WriteToken(tokan);
         }
+
+        public IActionResult LogoutUser()
+        {
+            Response.Cookies.Delete("Jwt_Key");
+            return RedirectToAction("Login");
+        }
+
+
     }
 
 }
