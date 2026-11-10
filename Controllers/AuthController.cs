@@ -1,9 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
+using Microsoft.IdentityModel.Tokens;
 using Product_Management_WebApp.Data;
 using Product_Management_WebApp.Dto;
 using Product_Management_WebApp.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.AccessControl;
+using System.Security.Claims;
+using System.Text;
 
 namespace Product_Management_WebApp.Controllers
 {
@@ -63,6 +68,7 @@ namespace Product_Management_WebApp.Controllers
             { 
                 if(isUserExists.Password == dto.Password)   
                 {
+                  var tokan =   GenerateJwtTokan(dto); 
                     return RedirectToAction("Index", "Dashboard");
                 }
                 else
@@ -70,8 +76,28 @@ namespace Product_Management_WebApp.Controllers
                     ViewBag.ErrorMessage = "Incorrect Password";
                     return View("Login");
                 }
-            }
-           
+            }           
+        }
+
+        private string GenerateJwtTokan(UserDto dto)
+        {
+            var jwtHnadler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes("YehEoSYAdvxrutgGjPrDgA1ofiSEkC7n7Dor8IVJDp3");
+
+            var tokanDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new System.Security.Claims.ClaimsIdentity(new[]
+                {
+                    new Claim(ClaimTypes.Name, dto.Email),
+                }),
+                Expires = DateTime.UtcNow.AddMinutes(30),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
+
+            };
+            var tokan = jwtHnadler.CreateToken(tokanDescriptor);
+
+            return jwtHnadler.WriteToken(tokan);
         }
     }
+
 }
