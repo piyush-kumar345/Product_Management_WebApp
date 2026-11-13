@@ -1,0 +1,149 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #0b0915;
+    background-image: radial-gradient(circle at 25% 25%, rgba(124, 58, 237, 0.22) 0%, transparent 45%), radial-gradient(circle at 75% 65%, rgba(99, 102, 241, 0.18) 0%, transparent 50%);
+    background-attachment: fixed;
+    color: #e2e8f0;
+    min-height: 100vh;
+}
+
+/* Navbar Dark Frosted Styling (Sirf Dashboard par apply hoga) */
+header .navbar {
+    background: rgba(19, 16, 34, 0.75) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+header .navbar-brand,
+header .nav-link {
+    color: #f1f5f9 !important;
+    transition: color 0.2s ease;
+}
+
+    header .nav-link:hover {
+        color: #a78bfa !important;
+    }
+
+/* Footer Dark Styling */
+footer.footer {
+    background: rgba(13, 11, 24, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #94a3b8 !important;
+}
+
+    footer.footer a {
+        color: #a78bfa;
+        text-decoration: none;
+    }
+
+/* Success Message Badge (Jab ViewBag me message hoga tabhi dikhega) */
+.status-message:not(:empty) {
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.4);
+    color: #34d399;
+    padding: 10px 18px;
+    border-radius: 10px;
+    margin: 15px auto 0;
+    max-width: 1140px;
+    text-align: center;
+    font-weight: 500;
+    backdrop-filter: blur(8px);
+}
+
+/* + Add Product Glowing Violet Button */
+.btn-add-glow {
+    background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+    border: 1px solid rgba(167, 139, 250, 0.4);
+    color: #ffffff !important;
+    font-weight: 500;
+    padding: 10px 22px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(124, 58, 237, 0.45);
+    transition: all 0.3s ease;
+}
+
+    .btn-add-glow:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(124, 58, 237, 0.65);
+        background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    }
+
+/* Frosted Glass Table Container */
+.glass-table-card {
+    background: rgba(24, 20, 44, 0.52);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(167, 139, 250, 0.22);
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), inset 0 0 35px rgba(139, 92, 246, 0.08);
+    min-height: 360px;
+    overflow: hidden;
+}
+
+    /* Bootstrap Table Dark Glass Overrides */
+    .glass-table-card .table {
+        --bs-table-bg: transparent;
+        --bs-table-color: #e2e8f0;
+        --bs-table-striped-bg: rgba(255, 255, 255, 0.02);
+        --bs-table-striped-color: #e2e8f0;
+        --bs-table-hover-bg: rgba(139, 92, 246, 0.12);
+        --bs-table-hover-color: #ffffff;
+        --bs-border-color: rgba(255, 255, 255, 0.08);
+        margin-bottom: 0;
+    }
+
+        .glass-table-card .table > :not(caption) > * > * {
+            padding: 16px 20px;
+            vertical-align: middle;
+            border-left: none;
+            border-right: none;
+        }
+
+    .glass-table-card thead.table-dark th {
+        background: rgba(38, 32, 68, 0.75) !important;
+        color: #f8fafc;
+        font-weight: 600;
+        letter-spacing: 0.4px;
+        border-bottom: 1px solid rgba(167, 139, 250, 0.25);
+    }
+
+    /* Edit & Delete Outlined Glass Buttons */
+    .glass-table-card .btn-warning {
+        background: rgba(245, 158, 11, 0.12);
+        border: 1px solid rgba(245, 158, 11, 0.45);
+        color: #fbbf24;
+        padding: 5px 14px;
+        border-radius: 7px;
+        font-weight: 500;
+        transition: all 0.25s ease;
+    }
+
+        .glass-table-card .btn-warning:hover {
+            background: rgba(245, 158, 11, 0.25);
+            border-color: #fbbf24;
+            color: #fde68a;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
+        }
+
+    .glass-table-card .btn-secondary {
+        background: rgba(239, 68, 68, 0.12);
+        border: 1px solid rgba(239, 68, 68, 0.45);
+        color: #f87171;
+        padding: 5px 14px;
+        border-radius: 7px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        margin-left: 6px;
+        transition: all 0.25s ease;
+    }
+
+        .glass-table-card .btn-secondary:hover {
+            background: rgba(239, 68, 68, 0.25);
+            border-color: #f87171;
+            color: #fecaca;
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.3);
+        }

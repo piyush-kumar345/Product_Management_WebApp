@@ -1,19 +1,21 @@
 ﻿@using Product_Management_WebApp.Dto
 @model List<ProductDto>
 
+<link rel="stylesheet" href="~/css/dashboard.css" />
 
-<div>@ViewBag.SuccessMessage</div>
+<div class="status-message">@ViewBag.SuccessMessage</div>
+
 <div class="container mt-4">
 
     <!-- Add Product Button -->
-    <div class="mb-3">
-        <a class="btn btn-primary" asp-action="ProductForm">
+    <div class="mb-4">
+        <a class="btn btn-primary btn-add-glow" asp-action="ProductForm">
             + Add Product
         </a>
     </div>
 
     <!-- Product Table -->
-    <div class="table-responsive">
+    <div class="table-responsive glass-table-card">
         <table class="table table-bordered table-striped table-hover">
 
             <thead class="table-dark">
@@ -44,10 +46,11 @@
                 }
                 else
                 {
-                    <tr>No Product Are Avilable </tr>
+                    <tr>
+                        <td colspan="5" class="text-center py-4 text-secondary">No Product Are Avilable </td>
+                    </tr>
                 }
-                </tbody>    
+            </tbody>
         </table>
     </div>
-
 </div>
