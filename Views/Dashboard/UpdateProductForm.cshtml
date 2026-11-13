@@ -1,10 +1,13 @@
 ﻿@using Product_Management_WebApp.Dto
 @model ProductDto
 
-<div>@ViewBag.ErrorMessage</div>
-<form class="container mt-4" asp-action="UpdateProduct">
+<link rel="stylesheet" href="~/css/dashboard.css" />
 
-    <div class="card p-4 shadow" style="max-width:600px; margin :auto">
+<div class="error-message">@ViewBag.ErrorMessage</div>
+
+<form class="container mt-4 mb-5" asp-action="UpdateProduct">
+
+    <div class="card glass-form-card p-4 p-md-5 shadow" style="max-width:600px; margin :auto">
         <h3 class="text-center mb-4">Edit Product</h3>
         <!-- Product Name -->
         <div class="mb-3">
@@ -28,7 +31,7 @@
         </div>
 
         <!-- Colour -->
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="colour" class="form-label">Colour</label>
             <input type="text" class="form-control" id="colour" name="color" asp-for="Color"
                    placeholder="Enter product colour">
@@ -42,5 +45,4 @@
         <button asp-action="Reset" type="reset" class="btn btn-secondary">Reset</button>
 
     </div>
-    
 </form>
