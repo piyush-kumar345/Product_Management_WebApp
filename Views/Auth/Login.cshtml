@@ -1,22 +1,67 @@
 ﻿@using Product_Management_WebApp.Dto
 @model UserDto
-<div>@ViewBag.SuccessMessage</div>
-<div>@ViewBag.ErrorMessage</div>
-<form class="container d-flex justify-content-center align-items-center" style=" min-height: 100vh" asp-action="LoginUser"> 
-    <div class="card p-4 shadow" style="width : 100%; max-width:400px;">
-        <h3 class="text-center mb-4">Login</h3>
-    <div class="mb-3">
-        <label for="email" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email"  name="Email" asp-action="Email" placeholder="Enter your email">
-    </div>
 
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name ="Password" asp-action="Password" placeholder="Enter your password">
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Product Management</title>
 
-    <button type="submit" class="btn btn-primary w-100">Login</button>
-    </div>
-</form> 
-<br/>
-New User<a asp-action="Register"> Register Here... </a>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Link to your existing stylesheet -->
+    <link rel="stylesheet"
+          href="~/css/Register.css">
+</head>
+<body>
+
+    <form class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;" asp-action="LoginUser">
+
+        <div class="card registration-card shadow" style="width: 100%; max-width: 450px;">
+            <div class="card-header-custom">
+                <h3 class="text-center mb-0"><i class="bi bi-box-arrow-in-right me-2"></i>Login</h3>
+            </div>
+
+            <div class="card-body">
+
+                <!-- Success & Error Messages -->
+                <div class="text-center fw-bold text-success mb-2">@ViewBag.SuccessMessage</div>
+                <div class="text-center fw-bold text-danger mb-3">@ViewBag.ErrorMessage</div>
+
+                <!-- Email Field -->
+                <div class="form-floating mb-3 position-relative">
+                    <i class="bi bi-envelope input-icon"></i>
+                    <input type="email" class="form-control" id="email" name="Email" asp-action="Email" placeholder="Enter your email">
+                    <label for="email" class="ms-4">Email address</label>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-floating mb-4 position-relative">
+                    <i class="bi bi-lock input-icon"></i>
+                    <input type="password" class="form-control" id="password" name="Password" asp-action="Password" placeholder="Enter your password">
+                    <label for="password" class="ms-4">Password</label>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-custom w-100 mb-3">Login</button>
+
+                <!-- Register Redirect Link -->
+                <div class="text-center mt-3">
+                    <span class="text-muted">New User</span>
+                    <a asp-action="Register" class="login-link"> Register Here... </a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
