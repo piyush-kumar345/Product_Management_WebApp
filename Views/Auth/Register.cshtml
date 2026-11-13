@@ -1,29 +1,76 @@
 ﻿@using Product_Management_WebApp.Dto
 @model UserDto
-<div> @ViewBag.ErrorMessage</div>
-<form class="container d-flex justify-content-center align-items-center " style="min-height: 100vh;" asp-action="CreateUser" >
-    <div class="card p-4 shadow" style="width: 100%; max-width: 400px; ">
 
-    <h3 class="text-center mb-4 "> Ragister</h3>
-            
-    <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="Username" asp-action=" Username" placeholder="Enter username">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Product Management</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts (Poppins) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Link to your external stylesheet -->
+    <link rel="stylesheet"
+          href="~/css/Register.css">
+</head>
+<body>
+
+    <!-- Error Message Display -->
+    <div class="position-absolute top-0 mt-3 text-center w-100 fw-bold text-danger">
+        @ViewBag.ErrorMessage
     </div>
 
-    <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="Email" asp-action=" Email" placeholder="Enter email">
-    </div>
+    <!-- Your Original Form tag with ASP Action -->
+    <form class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;" asp-action="CreateUser">
 
-    <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-control" id="password" name="Password" asp-action ="Password" placeholder="Enter password">
-    </div>
+        <div class="card registration-card shadow" style="width: 100%; max-width: 450px;">
+            <div class="card-header-custom">
+                <h3 class="text-center mb-0"><i class="bi bi-person-plus-fill me-2"></i> Register</h3>
+            </div>
 
-    <input type="submit" class="btn btn-success w-100" value="Submit" >
+            <div class="card-body">
 
-   </div>
-</form>
+                <!-- Username Field -->
+                <div class="form-floating mb-3 position-relative">
+                    <i class="bi bi-person input-icon"></i>
+                    <input type="text" class="form-control" id="username" name="Username" asp-action=" Username" placeholder="Enter username">
+                    <label for="username" class="ms-4">Username</label>
+                </div>
 
-Already Existing User <a asp-action="Login"> Login Here..</a>
+                <!-- Email Field -->
+                <div class="form-floating mb-3 position-relative">
+                    <i class="bi bi-envelope input-icon"></i>
+                    <input type="email" class="form-control" id="email" name="Email" asp-action=" Email" placeholder="Enter email">
+                    <label for="email" class="ms-4">Email</label>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-floating mb-4 position-relative">
+                    <i class="bi bi-lock input-icon"></i>
+                    <input type="password" class="form-control" id="password" name="Password" asp-action="Password" placeholder="Enter password">
+                    <label for="password" class="ms-4">Password</label>
+                </div>
+
+                <!-- Submit Button -->
+                <input type="submit" class="btn btn-custom w-100 mb-3" value="Submit">
+
+                <!-- Login Redirect Link -->
+                <div class="text-center mt-3">
+                    <span class="text-muted">Already Existing User</span>
+                    <a asp-action="Login" class="login-link"> Login Here..</a>
+                </div>
+
+            </div>
+        </div>
+    </form>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
