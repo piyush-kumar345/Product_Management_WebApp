@@ -29,23 +29,26 @@ namespace Product_Management_WebApp.Controllers
 
         public async Task<IActionResult> CreateProduct(ProductDto dto)
         {
-            if(dto== null)
+            if (dto is null || !ModelState.IsValid)
             {
-                ViewBag.ErrorMessage = "Please fill the all details!";
-                return View("ProductForm");
+                ViewBag.ErrorMessage = "Please fill in all details.";
+                return View("ProductForm",dto);
             }
+
             context.Products.Add(new Models.Product
             {
-               ProductName = dto.ProductName,
-               Description = dto.Description,
-               Price = dto.Price,
-               Color = dto.Color
+                ProductName = dto.ProductName,
+                Description = dto.Description,
+                Price = dto.Price,
+                Color = dto.Color
             });
             await context.SaveChangesAsync();
             return RedirectToAction("Index");
 
+
+
         }
-    
+
         public async Task<IActionResult> DeleteProduct(int productid)
         {
             var product =await context.Products.FirstOrDefaultAsync(x=> x.Id == productid);
@@ -61,7 +64,7 @@ namespace Product_Management_WebApp.Controllers
                 ViewBag.ErrorMessage = "Please Fill all the details";
                 return View("UpdateProductForm");
             }
-            var data = context.Products.FirstOrDefault(x => x.Id == dto.Id);
+            var data = context.Products.FirstOrDefault(x => x.Id == dto.Id );
 
             data.ProductName = dto.ProductName;
             data.Description = dto.Description;
