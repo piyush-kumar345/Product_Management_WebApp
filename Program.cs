@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Product_Management_WebApp.Data;
+using Product_Management_WebApp.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -52,6 +54,7 @@ builder.Services.AddAuthentication(option =>
 });
 // Add services to the container. 
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
 var app = builder.Build();
 

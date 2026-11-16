@@ -145,8 +145,7 @@ The `User` entity contains:
 - `ID`
 - `Username`
 - `Email`
-- `Password`
-
+- `Password` — stores a password hash, never the original password
 ### Product
 
 The `Product` entity contains:
@@ -166,19 +165,8 @@ The application uses JWT Bearer authentication. After a successful login, a JWT 
 For production deployments, configure the signing key securely through User Secrets, environment variables, or a managed secret store. Do not commit the signing key to the repository.
 
 ## Security Considerations
-
-This project is suitable as a learning or demonstration application. Before using it in production, consider the following improvements:
-
-- Hash and salt passwords with a proven password-hashing solution instead of storing plain-text passwords.
-- Move database connection strings and JWT signing keys out of source control.
-- Use a strong, environment-specific JWT signing key.
-- Require HTTPS in every deployed environment.
-- Add antiforgery protection to form submissions.
-- Use POST requests for destructive operations such as deleting products.
-- Add server-side validation and consistent error handling.
-- Add authorization policies or roles if multiple permission levels are required.
-- Avoid using `TrustServerCertificate=True` unless it is appropriate for the target environment.
-
+- Passwords are hashed using `PasswordHasher<User>`.
+- Existing accounts created before password hashing was introduced must register again.
 ## Future Improvements
 
 Possible future enhancements include:

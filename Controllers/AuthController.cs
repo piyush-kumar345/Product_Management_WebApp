@@ -1,23 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Product_Management_WebApp.Data;
 using Product_Management_WebApp.Dto;
 using Product_Management_WebApp.Models;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.AccessControl;
 using System.Security.Claims;
 using System.Text;
 
 namespace Product_Management_WebApp.Controllers
 {
-    public class AuthController(AppDbConetxt _context) : Controller
+    public class AuthController(
+        AppDbConetxt context,
+        IPasswordHasher<User> passwordHasher) : Controller
     {
         public IActionResult Register()
         {
-            ViewBag.SuccessMessage = TempData["SuccessMessage"]; 
-            return View();  
+            ViewBag.SuccessMessage = TempData["SuccessMessage"];
+            return View();
         }
 
         public IActionResult Login()
@@ -25,93 +26,113 @@ namespace Product_Management_WebApp.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CreateUser (UserDto dto)
+        [HttpPost]
+        public async Task<IActionResult> CreateUser(UserDto dto)
         {
-            if (dto == null || string.IsNullOrEmpty(dto.Username) || string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Password))
+            if (dto == null ||
+                string.IsNullOrWhiteSpace(dto.Username) ||
+                string.IsNullOrWhiteSpace(dto.Email) ||
+                string.IsNullOrWhiteSpace(dto.Password))
             {
-                ViewBag.ErrorMessage = "Kindly Fill All The Details";
-                return View("Register");
+                ViewBag.ErrorMessage = "Kindly fill in all the details.";
+                return View("Register", dto);
             }
 
-            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
-            if(existingUser == null)
+            var existingUser = await context.Users
+                .FirstOrDefaultAsync(user => user.Email == dto.Email);
+
+            if (existingUser != null)
             {
-                var user = new User
-                {
-                    Username = dto.Username,
-                    Email = dto.Email,
-                    Password = dto.Password
-                };
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                ViewBag.ErrorMessage = "Email already exists.";
+                return View("Register", dto);
             }
-            else
+
+            var user = new User
             {
-                ViewBag.ErrorMessage = "Email Already Exist";
-                return View("Register");
-            }
-            TempData["SuccessMessage"] = "User Created Successfully.Please Login";
-            return RedirectToAction("Login");
-               
+                Username = dto.Username,
+                Email = dto.Email
+            };
+
+            user.Password = passwordHasher.HashPassword(user, dto.Password);
+
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "User created successfully. Please log in.";
+            return RedirectToAction(nameof(Login));
         }
 
+        [HttpPost]
         public async Task<IActionResult> LoginUser(UserDto dto)
         {
-            var isUserExists = await _context.Users.FirstOrDefaultAsync(x => x.Email == dto.Email);
-            if (isUserExists == null)
+            if (dto == null ||
+                string.IsNullOrWhiteSpace(dto.Email) ||
+                string.IsNullOrWhiteSpace(dto.Password))
             {
-                ViewBag.ErrorMessage = "User Is Not Exist";
-                return View("Login");
+                ViewBag.ErrorMessage = "Please enter your email and password.";
+                return View("Login", dto);
             }
 
-            else
-            { 
-                if(isUserExists.Password == dto.Password)   
-                {
-                     var tokan =   GenerateJwtTokan(dto);
-                    Response.Cookies.Append("Jwt_Key", tokan, new CookieOptions
-                    {
-                        HttpOnly = true,
-                        Secure = true,
-                        Expires = DateTime.UtcNow.AddMinutes(30)
-                    });
-                     return RedirectToAction("Index", "Dashboard");
-                }
-                else
-                {
-                    ViewBag.ErrorMessage = "Incorrect Password";
-                    return View("Login");
-                }
-            }           
+            var user = await context.Users
+                .FirstOrDefaultAsync(item => item.Email == dto.Email);
+
+            if (user == null)
+            {
+                ViewBag.ErrorMessage = "Invalid email or password.";
+                return View("Login", dto);
+            }
+
+            var verificationResult = passwordHasher.VerifyHashedPassword(
+                user,
+                user.Password,
+                dto.Password);
+
+            if (verificationResult != PasswordVerificationResult.Success &&
+                verificationResult != PasswordVerificationResult.SuccessRehashNeeded)
+            {
+                ViewBag.ErrorMessage = "Invalid email or password.";
+                return View("Login", dto);
+            }
+
+            var token = GenerateJwtToken(user.Email);
+
+            Response.Cookies.Append("Jwt_Key", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(30)
+            });
+
+            return RedirectToAction("Index", "Dashboard");
         }
 
-        private string GenerateJwtTokan(UserDto dto)
+        private string GenerateJwtToken(string email)
         {
-            var jwtHnadler = new JwtSecurityTokenHandler();
-            var key = Encoding.UTF8.GetBytes("YehEoSYAdvxrutgGjPrDgA1ofiSEkC7n7Dor8IVJDp3");
+            var handler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(
+                "YehEoSYAdvxrutgGjPrDgA1ofiSEkC7n7Dor8IVJDp3");
 
-            var tokanDescriptor = new SecurityTokenDescriptor
+            var descriptor = new SecurityTokenDescriptor
             {
-                Subject = new System.Security.Claims.ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Name, dto.Email),
-                }),
+                Subject = new ClaimsIdentity(
+                [
+                    new Claim(ClaimTypes.Name, email)
+                ]),
                 Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256)
-
+                SigningCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256)
             };
-            var tokan = jwtHnadler.CreateToken(tokanDescriptor);
 
-            return jwtHnadler.WriteToken(tokan);
+            var token = handler.CreateToken(descriptor);
+            return handler.WriteToken(token);
         }
 
         public IActionResult LogoutUser()
         {
             Response.Cookies.Delete("Jwt_Key");
-            return RedirectToAction("Login");
+            return RedirectToAction(nameof(Login));
         }
-
-
     }
-
 }
