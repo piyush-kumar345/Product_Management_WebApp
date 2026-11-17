@@ -4,8 +4,13 @@
 <link rel="stylesheet" href="~/css/dashboard.css" />
 
 <div class="error-message">@ViewBag.ErrorMessage</div>
-
-<form class="container mt-4 mb-5" asp-action="CreateProduct">
+<div asp-validation-summary="ModelOnly" class="text-danger"></div><span asp-validation-for="ProductName" class="text-danger"></span>
+<span asp-validation-for="Description" class="text-danger"></span>
+<span asp-validation-for="Price" class="text-danger"></span>
+<span asp-validation-for="Color" class="text-danger"></span>
+<form class="container mt-4 mb-5"
+      asp-action="CreateProduct"
+      method="post">
 
     <div class="card glass-form-card p-4 p-md-5 shadow" style="max-width:600px; margin :auto">
         <h3 class="text-center mb-4">Add New Product</h3>

@@ -21,29 +21,75 @@ namespace Product_Management_WebApp.Controllers
 
         public IActionResult ProductForm() => View();
 
-        public IActionResult UpdateProductForm(int id)
+        [HttpGet]
+        public async Task<IActionResult> UpdateProductForm(int id)
         {
-            var data = context.Products.Select(x => new ProductDto { Id = x.Id, ProductName = x.ProductName, Description = x.Description, Price = x.Price, Color = x.Color }).FirstOrDefault(x => x.Id == id);
-            return View(data); 
-        }
+            var product = await context.Products
+                .AsNoTracking()
+                .FirstOrDefaultAsync(product => product.Id == id);
 
-        public async Task<IActionResult> CreateProduct(ProductDto dto)
-        {
-            if (dto is null || !ModelState.IsValid)
+            if (product is null)
             {
-                ViewBag.ErrorMessage = "Please fill in all details.";
-                return View("ProductForm",dto);
+                return NotFound();
             }
 
+            return View(new ProductDto
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                Description = product.Description,
+                Price = product.Price,
+                Color = product.Color
+            });
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProduct(ProductDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("ProductForm", dto);
+            }
+[HttpPost]
+[ValidateAntiForgeryToken]
+            public async Task<IActionResult> UpdateProduct(ProductDto dto)
+{
+    if (!ModelState.IsValid)
+    {
+        return View("UpdateProductForm", dto);
+    }
+
+    var product = await context.Products
+        .FirstOrDefaultAsync(product => product.Id == dto.Id);
+
+    if (product is null)
+    {
+        return NotFound();
+    }
+
+    product.ProductName = dto.ProductName.Trim();
+    product.Description = dto.Description.Trim();
+    product.Price = dto.Price;
+    product.Color = dto.Color.Trim();
+
+    await context.SaveChangesAsync();
+
+    TempData["SuccessMessage"] = "Product updated successfully.";
+
+    return RedirectToAction(nameof(Index));
+}
             context.Products.Add(new Models.Product
             {
-                ProductName = dto.ProductName,
-                Description = dto.Description,
+                ProductName = dto.ProductName.Trim(),
+                Description = dto.Description.Trim(),
                 Price = dto.Price,
-                Color = dto.Color
+                Color = dto.Color.Trim()
             });
+
             await context.SaveChangesAsync();
-            return RedirectToAction("Index");
+
+            return RedirectToAction(nameof(Index));
 
 
 
